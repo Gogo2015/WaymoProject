@@ -1,0 +1,16 @@
+services:
+  waymo-dev:
+    build: .
+    container_name: waymo-dev
+    working_dir: /workspace
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./:/workspace
+      - ./waymo_data:/workspace/waymo_data   # local dataset directory
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+    runtime: nvidia
