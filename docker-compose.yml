@@ -7,7 +7,7 @@ services:
     stdin_open: true
     volumes:
       - ./:/workspace
-      - ./waymo_data:/workspace/waymo_data   # local dataset directory
+      - ./data:/workspace/data   # local dataset directory
     deploy:
       resources:
         reservations:
