@@ -10,7 +10,7 @@ This script decodes a `.tfrecord` file and generates a smooth animation of all a
 
 Below is a sample of the generated trajectory animation:
 
-![Waymo Motion Visualization](anim.gif)
+![Waymo Motion Visualization](./tutorial_work/anim.gif)
 
 ---
 
