@@ -1,5 +1,4 @@
 import os
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # 0 = all, 1 = info, 2 = warning, 3 = error
 import tensorflow as tf
 
 DATA_DIR = "../data"
@@ -59,20 +58,15 @@ def transform(single_example, features):
     future_y = tf.boolean_mask(future_y, mask)
     future_valid = tf.boolean_mask(future_valid, mask)
 
-    #If zero tensor, return empty data
-    if tf.shape(past_x)[0] == 0:
-            return tf.data.Dataset.from_tensor_slices(
-                (tf.zeros((0, PAST_STEPS, 2), tf.float32),
-                 tf.zeros((0, FUTURE_STEPS, 2), tf.float32),
-                 tf.zeros((0, FUTURE_STEPS), tf.int64))
-            )
+    n = tf.shape(past_x)[0]
     
     #Translate agent's position so last point at origin
-    anchor_x, anchor_y = past_x[:, -1], past_y[:, -1]
+    anchor_x = past_x[:, -1] if PAST_STEPS > 0 else tf.zeros((n,), tf.float32)
+    anchor_y = past_y[:, -1] if PAST_STEPS > 0 else tf.zeros((n,), tf.float32)
     past_x -= anchor_x[:, None]
     past_y -= anchor_y[:, None]
-    fut_x -= anchor_x[:, None]
-    fut_y -= anchor_y[:, None]
+    future_x -= anchor_x[:, None]
+    future_y -= anchor_y[:, None]
 
     #Rotate agent so motion is along +x axis
     dx = past_x[:, -1] - past_x[:, -2]
@@ -91,9 +85,13 @@ def transform(single_example, features):
     future = tf.stack([future_x, future_y], axis=-1)
     return tf.data.Dataset.from_tensor_slices((past, future, future_valid))
 
-def get_data():
+def get_data(BATCH_SIZE):
     #Get dataset of all files in data folder
-    files = [os.path.join(DATA_DIR, f) for f in os.listdir(DATA_DIR)]
+    files = [
+            os.path.join(DATA_DIR, f) 
+            for f in os.listdir(DATA_DIR)
+            if ".tfrecord-" in f
+            ]
     dataset = tf.data.TFRecordDataset(files)
 
     dataset = dataset.flat_map(lambda x: transform(x, features_description))
