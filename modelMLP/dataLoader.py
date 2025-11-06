@@ -2,8 +2,6 @@ import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # 0 = all, 1 = info, 2 = warning, 3 = error
 import tensorflow as tf
 
-from _dataLoader import transform
-
 DATA_DIR = "../data"
 PAST_STEPS = 10
 FUTURE_STEPS = 80
