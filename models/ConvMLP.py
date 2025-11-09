@@ -23,7 +23,7 @@ class ConvMLP(tf.keras.Model):
         self.output = tf.keras.layers.Reshape((FUTURE_STEPS, 2), name="future_xy")
 
 
-    def forward(self, input):
+    def call(self, input):
         """
         Input: (B, 10, 2)
         Output: (B, 80, 2)
