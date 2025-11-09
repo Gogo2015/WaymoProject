@@ -27,12 +27,12 @@ def train_step(model, optimizer, past, future, valid):
     optimizer.apply_gradients(zip(grads, model.trainable_variables))
     batch_ade = ade(future, pred, valid)
     batch_fde = masked_fde(future, pred, valid)
-    
+
     return loss, batch_ade, batch_fde
 
 def train_model(model_to_train, BATCH_SIZE=64, epochs=10):
     #get dataset
-    ds = get_data(DATA_DIR, BATCH_SIZE)
+    train_ds, val_ds, test_ds = get_data(DATA_DIR, BATCH_SIZE)
 
     #build_model
     model = model_to_train(PAST_STEPS, FUTURE_STEPS)
@@ -41,12 +41,10 @@ def train_model(model_to_train, BATCH_SIZE=64, epochs=10):
     optimizer = tf.keras.optimizers.Adam(1e-3)
 
     for epoch in range(epochs):
-        epoch_loss = 0.0
-        epoch_ade = 0.0
-        epoch_fde = 0.0
+        epoch_loss, epoch_ade, epoch_fde = 0.0
         num_batches = 0
 
-        for past, future, valid in ds:
+        for past, future, valid in train_ds:
             batch_loss, batch_ade, batch_fde = train_step(model, optimizer, past, future, valid)
 
             # add batch metrics
@@ -61,6 +59,22 @@ def train_model(model_to_train, BATCH_SIZE=64, epochs=10):
         epoch_fde  /= num_batches
 
         print(f"epoch {epoch+1}: loss {epoch_loss:.4f} | ADE {epoch_ade:.4f} | FDE {epoch_fde:.4f}")
+
+        val_loss, val_ade, val_fde = 0.0, 0.0, 0.0
+        val_batches = 0
+        
+        for past, future, valid in val_ds:
+            pred = model(past, training=False)
+            val_loss += float(mse(future, pred, valid).numpy())
+            val_ade  += float(ade(future, pred, valid).numpy())
+            val_fde  += float(masked_fde(future, pred, valid).numpy())
+            val_batches += 1
+
+        val_loss /= val_batches
+        val_ade  /= val_batches
+        val_fde  /= val_batches
+
+        print(f"Val: loss {val_loss:.4f} | ADE {val_ade:.4f} | FDE {val_fde:.4f}")
 
         model_name = model_to_train.__name__
         os.makedirs("trained_models", exist_ok=True)
