@@ -82,7 +82,7 @@ def transform(single_example, features):
     #Create tensors for returning
     past = tf.stack([past_x, past_y], axis=-1)
     future = tf.stack([future_x, future_y], axis=-1)
-    
+
     return tf.data.Dataset.from_tensor_slices((past, future, future_valid))
 
 def get_data(DATA_DIR, BATCH_SIZE):
@@ -96,9 +96,20 @@ def get_data(DATA_DIR, BATCH_SIZE):
 
     dataset = dataset.flat_map(lambda x: transform(x, features_description))
 
-    dataset = dataset.shuffle(2048).batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
+    dataset = dataset.shuffle(2048)
+    dataset_size = sum(1 for _ in dataset)
+    train_size = int(0.8 * dataset_size)
+    val_size = int(0.1 * dataset_size)
 
-    return dataset
+    train_ds = dataset.take(train_size)
+    val_ds = dataset.skip(train_size).take(val_size)
+    test_ds = dataset.skip(train_size + val_size)
+
+    train_ds = train_ds.batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
+    val_ds = val_ds.batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
+    test_ds = test_ds.batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
+
+    return train_ds, val_ds, test_ds
 
 
 
