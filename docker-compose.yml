@@ -8,6 +8,8 @@ services:
     volumes:
       - ./:/workspace
       - ./data:/workspace/data   # local dataset directory
+    ports:
+      - "6006:6006"
     deploy:
       resources:
         reservations:

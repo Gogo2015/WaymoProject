@@ -16,7 +16,7 @@ MODELS = [
     ConvMLP
 ]
 
-DATA_DIR = "./data"
+DATA_DIR = "./training_data"
 
 PAST_STEPS = 10
 FUTURE_STEPS = 80
@@ -36,7 +36,7 @@ def train_step(model, optimizer, past, future, valid):
 
 def train_model(model_to_train, BATCH_SIZE=64, epochs=10):
     #get dataset
-    train_ds, val_ds, test_ds = get_data(DATA_DIR, BATCH_SIZE)
+    train_ds, val_ds = get_data(DATA_DIR, BATCH_SIZE)
 
     #build_model
     model = model_to_train(PAST_STEPS, FUTURE_STEPS)
@@ -47,8 +47,8 @@ def train_model(model_to_train, BATCH_SIZE=64, epochs=10):
     train_log_dir = os.path.join(LOG_DIR, current_time, "train")
     val_log_dir = os.path.join(LOG_DIR, current_time, "val")
 
-    train_writer = tf.summary.create_writer(train_log_dir)
-    val_writer = tf.summary.create_writer(val_log_dir)
+    train_writer = tf.summary.create_file_writer(train_log_dir)
+    val_writer = tf.summary.create_file_writer(val_log_dir)
 
     optimizer = tf.keras.optimizers.Adam(1e-3)
 
