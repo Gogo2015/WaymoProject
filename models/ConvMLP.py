@@ -11,7 +11,7 @@ class ConvMLP(tf.keras.Model):
         self.flatten = tf.keras.layers.Flatten()
 
         #Dense Layers
-        self.dense_1 = tf.keras.layers.Dense(128, activation="relu")
+        self.dense_1 = tf.keras.layers.Dense(128, activation=activation)
         self.dense_2 = tf.keras.layers.Dense(FUTURE_STEPS * 2)
 
         self.reshape = tf.keras.layers.Reshape((FUTURE_STEPS, 2), name="future_xy")
