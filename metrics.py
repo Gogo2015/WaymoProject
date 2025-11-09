@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-def masked_mse(y_true, y_pred, valid_mask):
+def mse(y_true, y_pred, valid_mask):
     valid_mask = tf.cast(valid_mask, tf.float32)[..., None]  # (B, T, 1)
     diff = tf.math.squared_difference(y_true, y_pred) * valid_mask  # (B, T, 2)
 
