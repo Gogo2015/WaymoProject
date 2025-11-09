@@ -1,3 +1,4 @@
 #Ignore data files
 *.tfrecord*
-modelMLP/__pycache__/_dataLoader.cpython-38.pyc
+trained_models/
+*.cpython*
