@@ -2,3 +2,4 @@
 *.tfrecord*
 trained_models/
 *.cpython*
+logs/
