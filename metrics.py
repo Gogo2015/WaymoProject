@@ -12,20 +12,22 @@ def mse(y_true, y_pred, valid_mask):
 def ade(y_true, y_pred, valid_mask):
     # average displacement error over valid steps
     valid_mask = tf.cast(valid_mask, tf.float32)[..., None]
+
     dist = tf.norm(y_true - y_pred, axis=-1, keepdims=True)  # (B, 80, 1)
     dist = dist * valid_mask
-    total = tf.reduce_sum(dist)
-    count = tf.reduce_sum(valid_mask)
-    return total / (count + 1e-6)
+
+    per_sample_tot = tf.reduce_sum(dist, axis=(1,2))
+    per_sample_count = tf.redice_sum(valid_mask, axis=(1,2)) + 1e-6
+
+    return tf.reduce_mean(per_sample_count / per_sample_count)
 
 def masked_fde(y_true, y_pred, valid_mask):
-    # y_true, y_pred: (B, T, 2)
-    # valid_mask: (B, T)
     valid_mask = tf.cast(valid_mask, tf.float32)
 
     # find last valid index per sample
     time_indices = tf.range(tf.shape(valid_mask)[1])[tf.newaxis, :]  # (1, T)
-    # mask out invalid
+
+    # zero out invalid
     masked_times = valid_mask * tf.cast(time_indices, tf.float32)
     last_valid_idx = tf.cast(tf.math.reduce_max(masked_times, axis=1), tf.int32)  # (B,)
 
