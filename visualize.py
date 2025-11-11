@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
 
-def visualize_trajectory(past_xy,true_future_xy,pred_future_xy,save_path="agent_traj.gif"):
+def visualize_trajectory(past_xy,true_future_xy,pred_future_xy,save_path):
     """
     Create a GIF comparing predicted vs true path.
 
