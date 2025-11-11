@@ -50,15 +50,15 @@ def visualize_trajectory(past_xy,true_future_xy,pred_future_xy,save_path="agent_
         past_xy[:, 0],
         past_xy[:, 1],
         "o-",
-        color="#1f77b4",
+        color="blue",
         linewidth=1.5,
         markersize=3,
         label=past_label,
     )
 
     # animated true/pred
-    true_line, = ax.plot([], [], "o-", color="#2ca02c", linewidth=1.5, markersize=3, label=true_label)
-    pred_line, = ax.plot([], [], "o--", color="#d62728", linewidth=1.5, markersize=3, label=pred_label)
+    true_line, = ax.plot([], [], "o-", color="green", linewidth=1.5, markersize=3, label=true_label)
+    pred_line, = ax.plot([], [], "o--", color="red", linewidth=1.5, markersize=3, label=pred_label)
 
     # legend
     ax.legend(loc="upper right", fontsize=6, frameon=True)
