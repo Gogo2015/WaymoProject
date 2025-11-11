@@ -85,7 +85,7 @@ def transform(single_example, features):
 
     return tf.data.Dataset.from_tensor_slices((past, future, future_valid))
 
-def get_data(DATA_DIR, BATCH_SIZE):
+def get_data(DATA_DIR, BATCH_SIZE, training=True):
     #Get dataset of all files in data folder
     files = [
             os.path.join(DATA_DIR, f) 
@@ -98,15 +98,22 @@ def get_data(DATA_DIR, BATCH_SIZE):
 
     dataset = dataset.shuffle(2048)
     dataset_size = sum(1 for _ in dataset)
-    train_size = int(0.9 * dataset_size)
 
-    train_ds = dataset.take(train_size)
-    val_ds = dataset.skip(train_size)
+    if training:
+        train_size = int(0.9 * dataset_size)
 
-    train_ds = train_ds.batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
-    val_ds = val_ds.batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
+        train_ds = dataset.take(train_size)
+        val_ds = dataset.skip(train_size)
 
-    return train_ds, val_ds
+        train_ds = train_ds.batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
+        val_ds = val_ds.batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
+
+        return train_ds, val_ds
+    
+    else:
+        test_ds = dataset.batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
+        
+        return test_ds
 
 
 
