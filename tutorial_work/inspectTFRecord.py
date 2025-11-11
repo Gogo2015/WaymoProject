@@ -18,6 +18,15 @@ from waymo_open_dataset.metrics.ops import py_metrics_ops
 from waymo_open_dataset.metrics.python import config_util_py as config_util
 from waymo_open_dataset.protos import motion_metrics_pb2
 
+"""
+## Citations
+https://github.com/waymo-research/waymo-open-dataset
+
+@InProceedings{Ettinger_2021_ICCV, author={Ettinger, Scott and Cheng, Shuyang and Caine, Benjamin and Liu, Chenxi and Zhao, Hang and Pradhan, Sabeek and Chai, Yuning and Sapp, Ben and Qi, Charles R. and Zhou, Yin and Yang, Zoey and Chouard, Aur'elien and Sun, Pei and Ngiam, Jiquan and Vasudevan, Vijay and McCauley, Alexander and Shlens, Jonathon and Anguelov, Dragomir}, title={Large Scale Interactive Motion Forecasting for Autonomous Driving: The Waymo Open Motion Dataset}, booktitle= Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)}, month={October}, year={2021}, pages={9710-9719} }
+
+@InProceedings{Kan_2024_icra, author={Chen, Kan and Ge, Runzhou and Qiu, Hang and Ai-Rfou, Rami and Qi, Charles R. and Zhou, Xuanyu and Yang, Zoey and Ettinger, Scott and Sun, Pei and Leng, Zhaoqi and Mustafa, Mustafa and Bogun, Ivan and Wang, Weiyue and Tan, Mingxing and Anguelov, Dragomir}, title={WOMD-LiDAR: Raw Sensor Dataset Benchmark for Motion Forecasting}, month={May}, booktitle= Proceedings of the IEEE International Conference on Robotics and Automation (ICRA)}, year={2024} }
+"""
+
 # If you use a custom conversion from Scenario to tf.Example, set the correct
 # number of map samples here.
 num_map_samples = 30000
