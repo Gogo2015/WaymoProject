@@ -4,7 +4,7 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # 0 = all, 1 = info, 2 = warning, 3 = 
 import datetime
 import tensorflow as tf
 from dataLoader import get_data
-from metrics import mse, ade, masked_fde
+from metrics import mse, ade, fde
 
 
 # import models
@@ -30,7 +30,7 @@ def train_step(model, optimizer, past, future, valid):
     grads = tape.gradient(loss, model.trainable_variables)
     optimizer.apply_gradients(zip(grads, model.trainable_variables))
     batch_ade = ade(future, pred, valid)
-    batch_fde = masked_fde(future, pred, valid)
+    batch_fde = fde(future, pred, valid)
 
     return loss, batch_ade, batch_fde
 
