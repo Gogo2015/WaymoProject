@@ -85,7 +85,7 @@ def train_model(model_to_train, BATCH_SIZE=64, epochs=10):
             pred = model(past, training=False)
             val_loss += float(mse(future, pred, valid).numpy())
             val_ade  += float(ade(future, pred, valid).numpy())
-            val_fde  += float(masked_fde(future, pred, valid).numpy())
+            val_fde  += float(fde(future, pred, valid).numpy())
             val_batches += 1
 
         val_loss /= val_batches
