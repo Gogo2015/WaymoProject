@@ -4,6 +4,8 @@
 
 This project implements a trajectory prediction model using the Waymo Open Motion Dataset, aiming to predict an agent's future positions based on its past trajectory. The model takes the past 10 (x, y) coordinates of a single agent and predicts its next 80 positions (a future horizon of roughly 8 seconds at 10 Hz). This task is crucial for autonomous driving systems, as accurate motion forecasting of vehicles and pedestrians helps in planning and safety. The provided code serves as a baseline approach: it trains a simple deep learning model on a subset of the Waymo motion dataset and evaluates its performance using standard error metrics. The model works on individual agent tracks without any scene context or map information, demonstrating what can be achieved with purely historical trajectory data.
 
+![Waymo Motion Visualization](.\gifs\ConvMLP\test_agent_2.gif)
+
 Key features of the project include:
 
 - **Data Loading & Preprocessing:** Reading Waymo Open Motion Dataset TFRecord files and preparing input-output trajectory pairs, with coordinate normalization (translation and rotation) for easier learning.
@@ -13,6 +15,14 @@ Key features of the project include:
 - **Visualization:** Generation of animated GIFs to visually compare predicted trajectories against ground truth future trajectories.
 
 ---
+
+![Waymo Motion Visualization](.\gifs\ConvMLP\test_agent_3.gif)
+![Waymo Motion Visualization](.\gifs\ConvMLP\test_agent_4.gif)
+
+![LossMetric](.\images\ConvMLP\losstrain.gif)
+![ADEMetric](.\images\ConvMLP\ADEtrain.gif)
+![FDEMetric](.\images\ConvMLP\FDEtrain.gif)
+
 
 ## Model Architecture
 
@@ -137,4 +147,4 @@ Multi-modal outputs (probabilistic trajectories)
 
 Better loss functions and scenario filtering
 
-Larger + more diverse training subsets (Current focus, will use Google Compute Engine to use WOMD without having to download)
+Use more of the dataset/Use more compute in prep for larger models(Current focus, will use Google Compute Engine to use WOMD without having to download)
