@@ -66,6 +66,7 @@ Each sample:
 
 Directory structure:
 
+```
 Waymo-Motion-Prediction/
 ├── ConvMLP.py
 ├── dataLoader.py
@@ -75,49 +76,42 @@ Waymo-Motion-Prediction/
 ├── visualize.py
 ├── training_data/
 └── test_data/
+```
 
 ## Usage Instructions
 ### Training
 Run:
 
+```
 python train_model.py
-
-This:
+```
 
 Loads + splits dataset
 
 Trains ConvMLP for default epochs
 
-Computes:
+Computes Loss (MSE), ADE, FDE
 
-Loss (MSE)
-
-ADE
-
-FDE
-
-Saves model to: trained_models/ConvMLP.keras
+Saves model to trained_models/ConvMLP.keras
 
 ### TensorBoard:
 
+```
 tensorboard --logdir logs/
+```
 
 ### Evaluation
 Run evaluation script:
 
+```
 python evaluate.py
+```
 
 At the prompt, enter:
 
 test
 
-Outputs per-batch + averaged metrics:
-
-Loss
-
-ADE
-
-FDE
+Outputs per-batch + averaged metrics: Loss, ADE, FDE
 
 ## Known Limitations
 No use of map or scene context
