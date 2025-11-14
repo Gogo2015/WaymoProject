@@ -20,9 +20,9 @@ Key features of the project include:
 ![Waymo Motion Visualization](./gifs/ConvMLP/test_agent_4.gif)
 
 10 Epoch Training Statistics:
-![LossMetric](./images/losstrain.gif)
-![ADEMetric](./images/ADEtrain.gif)
-![FDEMetric](./images/FDEtrain.gif)
+![LossMetric](./images/losstrain.png)
+![ADEMetric](./images/ADEtrain.png)
+![FDEMetric](./images/FDEtrain.png)
 
 
 ## Model Architecture
