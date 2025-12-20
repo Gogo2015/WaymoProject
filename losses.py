@@ -29,7 +29,7 @@ def multimodal_loss(y_true, pred_trajectories, confidences, valid_mask):
     distances = tf.sqrt(tf.reduce_sum(tf.square(diff), axis=-1) + 1e-8)
     
     # Apply mask
-    valid_mask_expanded = tf.expand_dims(valid_mask, 1)
+    valid_mask_expanded = tf.expand_dims(tf.cast(valid_mask, tf.float32), 1)
     distances = distances * valid_mask_expanded
     
     num_valid = tf.reduce_sum(valid_mask_expanded, axis=-1)  
